@@ -96,6 +96,7 @@ FROM sales_report sr
 JOIN all_sessions al 
 ON sr.productsku = al.productsku
 GROUP BY  al.country
+HAVING AVG(sr.totalordered) > 0
 ORDER BY AVG(sr.totalordered) DESC
 
 Shows the average number of products ordered per city
@@ -106,17 +107,17 @@ JOIN all_sessions al
 ON sr.productsku = al.productsku
 WHERE city != '(not set)'  AND city != 'Flagged New York'
 GROUP BY al.city
+HAVING AVG(sr.totalordered) > 0
 ORDER BY aveproductsordered DESC
-
-
-
-
-
-
-
 
 Answer:
 
+As it is not effcient to write out all the averages for every single city and country I will list the highest and lowest average for each.
+
+
+For the average number of products ordered in each country, the highest is from Saudi Arabia at 96.29 and lowest is Irag at 0.50.
+
+For the average number of products ordered in each city, the highest is from Riyadh at 319 (although they only have one order) and lowest is Kansas City at 0.67.
 
 
 
