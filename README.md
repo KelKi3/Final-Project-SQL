@@ -34,11 +34,13 @@ Insight into product related data:
 
 ## Challenges 
 
--Exploring the data without any context for the values, units of measure, relationship between tables and no where to learn more about it
--Managing the data without being able to set proper unique keys
--Navigating the amount of duplicated, missing and inconsistent data
+1. Exploring the data without any context for the values, units of measure, relationship between tables and no where to learn more about it
+  
+2. Managing the data without being able to set proper unique keys
+
+3.Navigating the amount of duplicated, missing and inconsistent data
 
 
 ## Future Goals
 
--to be able to break down the tables into smaller, more defined data sets with proper primary and foreign keys and to have more clarity with the data so the tasks could be completed with more confidence
+To be able to break down the tables into smaller, more defined data sets with proper primary and foreign keys and to have more clarity with the data so the tasks could be completed with more confidence
