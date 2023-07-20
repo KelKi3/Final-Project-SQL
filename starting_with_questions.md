@@ -55,6 +55,54 @@ Eliminating the indeterminant ‘(not set)’ cities from our data. The city wit
 
 SQL Queries:
 
+AFter much comparison between the tables trying to figure out which colum to use for the 'number of products' for this question, I have decided to just choose a column to use to demonstrate the queries used to come up with a solution to this task. The queries immediately following are what I used in the comparison of the different options.
+
+Comparing sku and order combinations between tables:
+
+SELECT sr.productsku AS sr_sku, 
+	sr.totalordered AS sr_orders, 
+	sbs.productsku AS sbs_sku, 
+	sbs.total_ordered AS sbs_orders, 
+	p.sku AS p_sku, 
+	p.orderedquantity AS p_orders
+FROM sales_by_sku sbs
+FULL OUTER JOIN sales_report sr ON sbs.productsku = sr.productsku
+FULL OUTER JOIN products p ON p.sku = sr.productsku
+
+Product orders are vastly different from the order values per sku on the sales_by_sku and sales_report tables. Assumption that these are the orders made by the site in order to have product to sell to the visitors as it is not likely that the average person bought 15170 Kick Balls. Will not use this information for these tasks.
+
+Productsku and total_ordered from sales_by_sku matches sales_report, so to use only one table is appropriate. There are extra productsku on the all_sessions table, but there are no products ordered information for them. Will use sales_report total_ordered for this task.
+
+SELECT a.unitssold, al.productsku, productquantity, totaltransactionrevenue, productprice
+FROM analytics a
+JOIN all_sessions al ON a.visitid = al.visitid
+WHERE unitssold IS NOT NULL
+
+SELECT sr.productsku, sr.totalordered, al.productsku, productquantity, totaltransactionrevenue, productprice
+FROM sales_report sr
+JOIN all_sessions al ON sr.productsku = al.productsku
+WHERE sr.totalordered != 0
+
+SELECT *
+FROM sales_by_sku sbs
+FULL OUTER JOIN sales_report sr ON sbs.productsku = sr.productsku
+
+Solution Queries
+
+Shows the average of the totalordered per country
+
+SELECT al.country, ROUND(AVG(sr.totalordered), 2) AS avgproductsordered
+FROM sales_report sr
+JOIN all_sessions al 
+ON sr.productsku = al.productsku
+GROUP BY  al.country
+ORDER BY AVG(sr.totalordered) DESC
+
+
+
+
+
+
 
 
 Answer:
