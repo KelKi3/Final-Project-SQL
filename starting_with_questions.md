@@ -73,7 +73,7 @@ Product orders are vastly different from the order values per sku on the sales_b
 
 Productsku and total_ordered from sales_by_sku matches sales_report, so to use only one table is appropriate. There are extra productsku on the all_sessions table, but there are no products ordered information for them. 
 
-Will use unitssold from the analytics total_ordered for this task and tasks 3 and 4 for consistency.
+Will use unitssold from the analytics total_ordered for this task and tasks 3 and 4 for consistency. Also are assuming that because there is a unitssold value, that there was a unit sold regardless of total transaction revenue.
 
 SELECT a.unitssold, al.productsku, productquantity, totaltransactionrevenue, productprice
 FROM analytics a
@@ -135,7 +135,7 @@ For the average number of products ordered in each city, the highest is from Chi
 
 SQL Queries:
 
-
+Will also be using u
 
 It is incredibly difficult to discern a pattern from the product categories in relation to anything as the labelling is not organized and is very confusing. The labels that are present are sometimes vague or missing and some are not appropriately descriptive. There are also products that could be categorized under many different categories.  For this reason, I have created a column of simplified categories in an array to help with searching through the products. It is still possible to do a more detailed search through the productcategories and productname columns it needed.
 
@@ -161,9 +161,46 @@ Created 25 simplified categories
 SELECT DISTINCT unnest(modifiedcategories) AS unique_value
 FROM all_sessions;
 
+![image](https://github.com/KelKi3/Final-Project-SQL/assets/104335144/b5c52e22-49e1-4331-9e5c-0f055468bfa2)
 
+Showing how many items sold under certain catergories per country
 
+SELECT al.country, SUM(a.unitssold) AS unitssold, al.productcategory, al.modifiedcategories
+FROM all_sessions al
+JOIN analytics a ON al.fullvisitorid = a.fullvisitorid
+WHERE a.unitssold IS NOT NULL 
+GROUP BY al.country, al.productcategory, al.modifiedcategories
+ORDER BY country, unitssold DESC
 
+Examples of queries for pattern checking
+
+Products ordered under certain categories from United States
+
+SELECT SUM(a.unitssold) AS unitssold, al.productcategory
+FROM all_sessions al
+JOIN analytics a ON al.fullvisitorid = a.fullvisitorid
+WHERE a.unitssold IS NOT NULL AND country = 'United States' AND productcategory != '(not set)'
+GROUP BY  al.productcategory
+ORDER BY unitssold DESC
+
+Total apparel products sold in the United States
+
+SELECT SUM(a.unitssold) AS unitssold
+FROM all_sessions al
+JOIN analytics a ON al.fullvisitorid = a.fullvisitorid
+WHERE a.unitssold IS NOT NULL AND country = 'United States' AND productcategory LIKE '%Apparel%'
+ORDER BY unitssold DESC
+
+Showing how many unitssold that fall under specific modified categories
+
+Apparel
+
+SELECT country, sum(unitssold) AS units_sold_by_category
+FROM all_sessions al
+JOIN analytics a ON al.fullvisitorid = a.fullvisitorid
+WHERE ARRAY['Apparel']::character varying[] && modifiedcategories AND unitssold IS NOT NULL
+GROUP BY country
+ORDER BY sum(unitssold) DESC
 
 
 Answer:
