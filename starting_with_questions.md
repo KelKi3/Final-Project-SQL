@@ -37,7 +37,17 @@ ORDER BY total_transaction_revenue DESC
 
 Answer:
 
-The highest level of transaction revenues per country is seen in the United States and per city is San Fransciso.
+The highest level of transaction revenues per country is seen in the United States.
+
+Determining the highest transaction revenue per city is more difficult. 
+The largest count of transactions is for the city category ‘(not set)’.  Majority of the cities that are (not set) are located in the USA, but there are a significant amount in other countries such as United Kingdom, Canada and India. In total there are 135 countries that have cities that have no indication of what they are.
+
+Eliminating the indeterminant ‘(not set)’ cities from our data. The city with the highest total transaction revenue is San Francisco (USA).
+
+
+
+
+
 
 
 **Question 2: What is the average number of products ordered from visitors in each city and country?**
