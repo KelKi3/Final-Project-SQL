@@ -89,7 +89,7 @@ FULL OUTER JOIN sales_report sr ON sbs.productsku = sr.productsku
 
 Solution Queries
 
-Shows the average of the totalordered per country
+Shows the average number of products ordered per country
 
 SELECT al.country, ROUND(AVG(sr.totalordered), 2) AS avgproductsordered
 FROM sales_report sr
@@ -97,6 +97,17 @@ JOIN all_sessions al
 ON sr.productsku = al.productsku
 GROUP BY  al.country
 ORDER BY AVG(sr.totalordered) DESC
+
+Shows the average number of products ordered per city
+
+SELECT al.city, al.country, ROUND(AVG(sr.totalordered),2) AS aveproductsordered
+FROM sales_report sr
+JOIN all_sessions al 
+ON sr.productsku = al.productsku
+WHERE city != '(not set)' 
+GROUP BY al.city, al.country
+HAVING ROUND(AVG(sr.totalordered),2) > 0
+ORDER BY aveproductsordered DESC, al.country, al.city 
 
 
 
