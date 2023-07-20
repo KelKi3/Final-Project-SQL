@@ -71,7 +71,9 @@ FULL OUTER JOIN products p ON p.sku = sr.productsku
 
 Product orders are vastly different from the order values per sku on the sales_by_sku and sales_report tables. Assumption that these are the orders made by the site in order to have product to sell to the visitors as it is not likely that the average person bought 15170 Kick Balls. Will not use this information for these tasks.
 
-Productsku and total_ordered from sales_by_sku matches sales_report, so to use only one table is appropriate. There are extra productsku on the all_sessions table, but there are no products ordered information for them. Will use sales_report total_ordered for this task.
+Productsku and total_ordered from sales_by_sku matches sales_report, so to use only one table is appropriate. There are extra productsku on the all_sessions table, but there are no products ordered information for them. 
+
+Will use unitssold from the analytics total_ordered for this task and tasks 3 and 4 for consistency.
 
 SELECT a.unitssold, al.productsku, productquantity, totaltransactionrevenue, productprice
 FROM analytics a
@@ -91,23 +93,24 @@ Solution Queries
 
 Shows the average number of products ordered per country
 
-SELECT al.country, ROUND(AVG(sr.totalordered), 2) AS avgproductsordered
-FROM sales_report sr
+SELECT al.country, ROUND(AVG(a.unitssold), 2) AS avg_unit_ssold
+FROM analytics a
 JOIN all_sessions al 
-ON sr.productsku = al.productsku
+ON a.visitid = al.visitid
+WHERE city != 'Flagged New York'
 GROUP BY  al.country
-HAVING AVG(sr.totalordered) > 0
-ORDER BY AVG(sr.totalordered) DESC
+HAVING AVG(a.unitssold) > 0
+ORDER BY AVG(a.unitssold) DESC
 
 Shows the average number of products ordered per city
 
-SELECT al.city, ROUND(AVG(sr.totalordered),2) AS aveproductsordered
-FROM sales_report sr
+SELECT al.city, ROUND(AVG(a.unitssold),2) AS aveproductsordered
+FROM analytics a
 JOIN all_sessions al 
-ON sr.productsku = al.productsku
+ON a.visitid = al.visitid
 WHERE city != '(not set)'  AND city != 'Flagged New York'
 GROUP BY al.city
-HAVING AVG(sr.totalordered) > 0
+HAVING AVG(a.unitssold) > 0
 ORDER BY aveproductsordered DESC
 
 Answer:
@@ -115,9 +118,14 @@ Answer:
 As it is not effcient to write out all the averages for every single city and country I will list the highest and lowest average for each.
 
 
-For the average number of products ordered in each country, the highest is from Saudi Arabia at 96.29 and lowest is Irag at 0.50.
+For the average number of products ordered in each country, the highest is from Canada at 2.44 and lowest is Denmark at 1.
 
-For the average number of products ordered in each city, the highest is from Riyadh at 319 (although they only have one order) and lowest is Kansas City at 0.67.
+For the average number of products ordered in each city, the highest is from Chicago at 5  and lowest is Hong Kong at 1.
+
+
+
+
+
 
 
 
@@ -126,6 +134,35 @@ For the average number of products ordered in each city, the highest is from Riy
 
 
 SQL Queries:
+
+
+
+It is incredibly difficult to discern a pattern from the product categories in relation to anything as the labelling is not organized and is very confusing. The labels that are present are sometimes vague or missing and some are not appropriately descriptive. There are also products that could be categorized under many different categories.  For this reason, I have created a column of simplified categories in an array to help with searching through the products. It is still possible to do a more detailed search through the productcategories and productname columns it needed.
+
+ALTER TABLE all_sessions
+ADD modifiedcategories VARCHAR(100);
+
+Change column into array to use various categories per item
+
+ALTER TABLE all_sessions
+ALTER COLUMN modifiedcategories TYPE varchar(255)[] USING ARRAY[modifiedcategories];];
+
+example query for filling the new column
+
+UPDATE all_sessions 
+SET modifiedcategories = modifiedcategories || '{Men''s}'
+WHERE productname LIKE '%Men''s%'
+SELECT *
+FROM all_sessions
+WHERE 'Men''s' = ANY(modifiedcategories)
+
+Created 25 simplified categories 
+
+SELECT DISTINCT unnest(modifiedcategories) AS unique_value
+FROM all_sessions;
+
+
+
 
 
 
