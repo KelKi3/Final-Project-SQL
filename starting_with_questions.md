@@ -100,14 +100,13 @@ ORDER BY AVG(sr.totalordered) DESC
 
 Shows the average number of products ordered per city
 
-SELECT al.city, al.country, ROUND(AVG(sr.totalordered),2) AS aveproductsordered
+SELECT al.city, ROUND(AVG(sr.totalordered),2) AS aveproductsordered
 FROM sales_report sr
 JOIN all_sessions al 
 ON sr.productsku = al.productsku
-WHERE city != '(not set)' 
-GROUP BY al.city, al.country
-HAVING ROUND(AVG(sr.totalordered),2) > 0
-ORDER BY aveproductsordered DESC, al.country, al.city 
+WHERE city != '(not set)'  AND city != 'Flagged New York'
+GROUP BY al.city
+ORDER BY aveproductsordered DESC
 
 
 
