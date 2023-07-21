@@ -256,9 +256,52 @@ Patterns in the product categories by city:
 
 SQL Queries:
 
+Top selling product per country
 
+WITH totals AS (
+SELECT al.country, al.productname, SUM(a.unitssold) AS unitssold, al.modifiedcategories
+FROM all_sessions al
+JOIN analytics a ON al.visitid = a.visitid
+WHERE a.unitssold IS NOT NULL
+GROUP BY al.country, al.productname, al.modifiedcategories
+)
+
+
+SELECT t.country, t.productname, t.unitssold, t.modifiedcategories
+FROM totals t
+JOIN (
+    SELECT country, MAX(unitssold) AS max_unitsold
+    FROM totals
+    GROUP BY country
+) max_t ON t.country = max_t.country AND t.unitssold = max_t.max_unitsold
+ORDER BY t.unitssold DESC;
+
+
+
+Top selling product per city
+
+WITH totals AS (
+    SELECT al.country, al.city, al.productname, SUM(a.unitssold) AS unitssold, al.modifiedcategories
+    FROM all_sessions al
+    JOIN analytics a ON al.visitid = a.visitid
+    WHERE a.unitssold IS NOT NULL AND city != '(not set)'
+    GROUP BY al.country, al.city, al.productname, al.modifiedcategories
+)
+
+SELECT t.city, t.productname, t.unitssold, t.modifiedcategories
+FROM totals t
+JOIN (
+    SELECT city, MAX(unitssold) AS max_unitsold
+    FROM totals
+    GROUP BY city
+) max_t ON t.city = max_t.city AND t.unitssold = max_t.max_unitsold
+ORDER BY t.unitssold DESC;
 
 Answer:
+
+The products with the top three sales by country are Brand related products with Google Alpine Style Backpack from United States, Waze Pack of 9 Decal Set from Canada and Android RFID Journal from Egypt.
+
+The products with the top three sales by city are all from United States; "SPF-15 Slim & Slender Lip Balm" from Sunnyvale and the "Google Alpine Style Backpack" from New York and Chicago
 
 
 
