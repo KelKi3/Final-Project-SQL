@@ -172,6 +172,15 @@ WHERE a.unitssold IS NOT NULL
 GROUP BY al.country, al.productcategory, al.modifiedcategories
 ORDER BY country, unitssold DESC
 
+Showing how many items sold under certain catergories per city
+
+SELECT al.city, SUM(a.unitssold) AS unitssold, al.productcategory, al.modifiedcategories
+FROM all_sessions al
+JOIN analytics a ON al.fullvisitorid = a.fullvisitorid
+WHERE a.unitssold IS NOT NULL AND city != '(not set)'
+GROUP BY al.city, al.productcategory, al.modifiedcategories
+ORDER BY city, unitssold DESC
+
 Examples of queries for pattern checking
 
 Products ordered under certain categories from United States
@@ -202,8 +211,41 @@ WHERE ARRAY['Apparel']::character varying[] && modifiedcategories AND unitssold 
 GROUP BY country
 ORDER BY sum(unitssold) DESC
 
+The most unitssold per city per category
+
+SELECT city, unitssold, productcategory, modifiedcategories
+FROM (
+    SELECT 
+        al.city, SUM(a.unitssold) AS unitssold, al.productcategory, al.modifiedcategories,
+        RANK() OVER (PARTITION BY al.city ORDER BY SUM(a.unitssold) DESC) AS rank
+    FROM all_sessions al
+    JOIN analytics a ON al.fullvisitorid = a.fullvisitorid
+    WHERE a.unitssold IS NOT NULL AND city != '(not set)'
+    GROUP BY al.city, al.productcategory, al.modifiedcategories
+) ranked_data
+WHERE rank = 1
+ORDER BY city;
+
+Filtered to cities in the United States
+
+SELECT al.city, SUM(a.unitssold) AS unitssold, al.productcategory, al.modifiedcategories
+FROM all_sessions al
+JOIN analytics a ON al.fullvisitorid = a.fullvisitorid
+WHERE a.unitssold IS NOT NULL AND city != '(not set)' AND country = 'United States'
+GROUP BY al.city, al.productcategory, al.modifiedcategories
+ORDER BY unitssold DESC
+
 
 Answer:
+
+Patterns in product categories pertaining to countries:
+-The largest number of different countries in one catergory is 28 countries that purchased apparel, with the United States being the largest purveyor of these items.
+-The United States is the only country with purchases in all the different product categories
+
+Patterns in the product categories by city:
+-The category with the most variety of cities is apparel
+-the product categories with the highest amount of purchases per city in the USA are Stickers from Mountain View, Bags from New York and YouTube waterbottle from San Brune
+
 
 
 
