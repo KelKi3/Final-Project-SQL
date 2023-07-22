@@ -311,9 +311,27 @@ The products with the top three sales by city are all from United States; "SPF-1
 
 SQL Queries:
 
+SELECT city, country,
+    SUM(totaltransactionrevenue) AS total_revenue
+FROM all_sessions
+WHERE totaltransactionrevenue IS NOT NULL AND country != 'Flagged Canada' AND city != '(not set)'
+GROUP BY city, country
+ORDER BY total_revenue DESC;
+
+SELECT country,
+    SUM(totaltransactionrevenue) AS total_revenue
+FROM all_sessions
+WHERE totaltransactionrevenue IS NOT NULL AND country != 'Flagged Canada'
+GROUP BY country
+ORDER BY total_revenue DESC;
 
 
 Answer:
+
+The amount of revenue can vary significantly depending on many things like the size of the country and their level of development.
+
+The previous queries demonstrate the greater consumer spending is in the USA. That along with many other factors such as a large population in a developed country where they have technology and access to online spending has the potentional for higher revenue generation.
+
 
 
 
