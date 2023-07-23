@@ -1,4 +1,3 @@
-# Starting With Data
 
 ## Question 1: 
 
@@ -43,7 +42,7 @@ GROUP BY year, month
 ORDER BY year, numberofvisits DESC;
 ```
 
-![Alt text](image-2.png)
+![image](https://github.com/KelKi3/Final-Project-SQL/assets/104335144/f47f414c-123f-4624-9573-96d4efb86f11)
 
 
 ## Question 3: 
@@ -55,7 +54,9 @@ FROM analytics a
 JOIN all_sessions al ON al.visitid = a.visitid
 WHERE transactions IS NOT NULL
 ```
-![Alt text](image-3.png)
+
+![image](https://github.com/KelKi3/Final-Project-SQL/assets/104335144/49a7b9ea-c710-459d-9b5d-b6b90db61896)# Starting With Data
+
 
 ```
 SELECT ROUND(AVG(a.timeonsite)/60,0) AS avg_time_min
@@ -63,4 +64,4 @@ FROM analytics a
 JOIN all_sessions al ON al.visitid = a.visitid
 WHERE transactions IS NULL
 ```
-![Alt text](image-4.png)
+![image](https://github.com/KelKi3/Final-Project-SQL/assets/104335144/94ac05e4-8d49-4e95-8cdc-120885547def)
