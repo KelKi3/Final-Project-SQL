@@ -1,4 +1,4 @@
-## Cleaning the Data
+# Cleaning the Data
 
 Upon initial view of the data it is clear that the data types will need to be adjusted to include appropriate data types and consistency across all the tables. 
 ```
