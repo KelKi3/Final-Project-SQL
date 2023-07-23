@@ -113,11 +113,12 @@ As it is not effcient to write out all the averages for every single city and co
 
 For the average number of products ordered in each country, the highest is from Canada at 2.44 and lowest is Denmark at 1.
 
-![Alt text](image-5.png)
+![image](https://github.com/KelKi3/Final-Project-SQL/assets/104335144/d3297231-2db2-4a83-b3cc-db68eb458195)
+
 
 For the average number of products ordered in each city, the highest is from Chicago at 5  and lowest is Hong Kong at 1.
 
-![Alt text](image-6.png)
+![image](https://github.com/KelKi3/Final-Project-SQL/assets/104335144/d4d89d64-3ea8-47ba-804e-c5721fca2127)
 
 
 ### Question 3: Is there any pattern in the types (product categories) of products ordered from visitors in each city and country?**
