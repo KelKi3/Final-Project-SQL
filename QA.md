@@ -73,9 +73,9 @@ WHERE channelgrouping NOT IN ('Direct', 'Referral', 'Organic Search', 'Display',
 ```
 
 Cleaning the data where necessary
--Full queries for the cleaning process can be seen in [cleaning_data.md](cleaning_data.md)
--identify data that can be removed or corrected
--check duplicates, formatting, data types
+- Full queries for the cleaning process can be seen in [cleaning_data.md](cleaning_data.md)
+- identify data that can be removed or corrected
+- check duplicates, formatting, data types
 
 ```
 SELECT COUNT(DISTINCT sku)
@@ -107,9 +107,9 @@ HAVING COUNT(fullvisitorid) > 1;
 
 
 Check data for accuracy.
--cross reference data with external sources
--check for potential errors or anomalies
--look for and assess outlying data
+- cross reference data with external sources
+- check for potential errors or anomalies
+- look for and assess outlying data
 
 *Shows how many rows per date*
 ```
