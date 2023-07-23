@@ -1,4 +1,4 @@
-##Risk Areas:
+## Risk Areas:
 
 The provided data presents several critical risk areas including the lack of context, missing values, duplicates, and inaccurate entries. These issues can significantly impact the reliability and usability of the data.
 
@@ -7,7 +7,7 @@ One of the challenges encountered during the data analysis process was the insuf
 It would have been beneficial to have been able to allocate more time to the data preparation phase. Creating more streamlined and user-friendly versions of the tables would have facilitated a more effective assessment of the large number of duplicates, missing values, and the establishment of valid keys for relational databases.
 
 
-##QA Process:
+## QA Process:
 
 The QA procedure started with exploring and analysing the data for structure issues and quality issues. This does not include every query used, but examples of some that may have also been altered in order to view the data in other tables.
 
