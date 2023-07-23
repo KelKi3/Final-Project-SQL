@@ -71,6 +71,12 @@ SELECT channelgrouping
 FROM all_sessions
 WHERE channelgrouping NOT IN ('Direct', 'Referral', 'Organic Search', 'Display', 'Paid Search', 'Affiliates');
 ```
+*Looking at the 'timeonsite' column in an HH:MI:SS format to assess validity of the numbers*
+```
+SELECT MAX(TO_CHAR((timeonsite||'seconds')::interval,'HH24:MI:SS')), 
+MIN(TO_CHAR((timeonsite||'seconds')::interval,'HH24:MI:SS'))
+FROM analytics
+```
 
 Cleaning the data where necessary
 - Full queries for the cleaning process can be seen in [cleaning_data.md](cleaning_data.md)
