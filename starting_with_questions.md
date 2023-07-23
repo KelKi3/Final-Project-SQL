@@ -3,7 +3,7 @@
 # Starting With Questions
 
     
-###Question 1: Which cities and countries have the highest level of transaction revenues on the site?**
+### Question 1: Which cities and countries have the highest level of transaction revenues on the site?**
 
 **SQL Queries:**
 
